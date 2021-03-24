@@ -1,0 +1,63 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --table-background-color: grey;
+  --background-color: #00B0F9;
+  --table-background-color: #EEEEEE;
+  --table-width: 400px;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+.tablediv {
+  min-height: 100vh;
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  grid-gap: 1rem;
+  grid-template-columns: auto;
+  grid-template-rows: 200px auto;
+  grid-template-areas: 'header' 'table';
+}
+.tableContainer{
+  max-width: var(--table-width);
+  grid-area: table;
+
+}
+.tabelle {
+  background-color: var(--table-background-color);
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
+.head {
+  background-color: var(--table-background-color);
+}
+.heading {
+  grid-area: header;
+  text-align: center;
+  width: 100%;
+  top: -1rem;
+  color: black;
+  opacity: .1;
+  font-size: 5rem;
+  font-weight: 600;
+}
+/*.eingaben {
+  max-width: var(--table-width);
+  grid-area: eingaben;
+  background-color: var(--table-background-color);
+  padding: 1rem;
+  border-radius: 5px;
+}*/
+.eingaben label {
+  display: inline-block;
+  width: 70px;
+}
