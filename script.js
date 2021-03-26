@@ -2,19 +2,23 @@ const tableContainer = document.querySelector('[data-table]');
 const LOCAL_STORAGE_TABLE_KEY = 'ausgaben.table'
 
 let table = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TABLE_KEY)) || [];
-
+let sort = 'date';
 
 function logValues() {
   console.log(`die werte sind: ${newWas}, ${newWieViel}, ${newWann}, ${newWer}.`)
 }
 
 function render() {
-  sortArrayDate();
+  sortArray();
   clearElement(tableContainer);
   constructHeader();
   constructInput();
   constructTable(table);
   constructSum();
+}
+
+function renderList(){
+  constructTable(table);
 }
 
 function clearElement(element){
@@ -37,7 +41,45 @@ function constructHeader(){
   headDataWas.innerText = 'Was';
   headDataWieViel.innerText = 'Wie Viel';
   headDataWann.innerText = 'Wann';
+  headDataWann.classList.add('text-align-center');
   headDataWer.innerText = 'Wer';
+  //Headrow klickbar machen
+  headDataWas.classList.add = 'hdClick';
+  headDataWas.addEventListener("click", () => {
+    /*if (document.getElementById('hdActive')){
+    document.getElementById('hdActive').id = 'inactive';}
+    headDataWas.id = 'hdActive';    Das sollte eine Möglichkeit sein, die aktuelle Sortierung anzuzeigen, aber sie überschreibt sich durch's neurendern. vielleicht findest du ja eine Möglichkeit, nur die Liste nue zu rendern, ohne dabei den header und den input neu zu rendern. ich hab es eben versucht, aber es hat nicht so geklappt, wie ich mir das vorgestellt hatte. Primär das lösen nur der tabelle. */
+    setSort('was');
+    sortArray();
+    saveAndRender();
+  })
+  headDataWieViel.classList.add = 'hdClick';
+  headDataWieViel.addEventListener("click", () => {
+    /*if (document.getElementById('hdActive')){
+    document.getElementById('hdActive').id = 'inactive';}
+    headDataWieViel.id = 'hdActive';*/
+    setSort('wieViel');
+    sortArray();
+    saveAndRender();
+  })
+  headDataWann.classList.add = 'hdClick';
+  headDataWann.addEventListener("click", () => {
+    /*if (document.getElementById('hdActive'));{
+    document.getElementById('hdActive').id = 'inactive';}
+    headDataWann.id = 'hdActive';*/
+    setSort('date');
+    sortArray();
+    saveAndRender();
+  })
+  headDataWer.classList.add = 'hdClick';
+  headDataWer.addEventListener("click", () => {
+    /*if (document.getElementById('hdActive')){
+    document.getElementById('hdActive').id = 'inactive';}
+    headDataWer.id = 'hdActive';*/
+    setSort('wer');
+    sortArray();
+    saveAndRender();
+  })
   //Elemente einbetten
   headRow.appendChild(headDataWas);
   headRow.appendChild(headDataWieViel);
@@ -134,8 +176,10 @@ function constructTable(table){
     tableDataWas.innerText = row.was;
     tableRow.appendChild(tableDataWas);
     tableDataWieViel.innerText = row.wieViel + ' €';
+    tableDataWieViel.classList.add("text-align-right");
     tableRow.appendChild(tableDataWieViel);
     tableDataWann.innerText = row.wann;
+    tableDataWann.classList.add('text-align-center')
     tableRow.appendChild(tableDataWann);
     tableDataWer.innerText = row.wer;
     tableRow.appendChild(tableDataWer);
@@ -162,7 +206,7 @@ function constructSum(){
     let tableDataWer = document.createElement('td');
     tableDataWieViel.innerText = gesamtAusgaben() + ' €';
     tableDataWas.innerText = 'Summe:';
-    tableDataWieViel.classList.add('summe')
+    tableDataWieViel.classList.add('summe', 'text-align-right')
     tableRow.appendChild(tableDataWas);
     tableRow.appendChild(tableDataWieViel);
     tableRow.appendChild(tableDataWann);
@@ -206,6 +250,43 @@ function getSumMonth() {
   
 }
 
+function setSort(newSort) {
+  sort = newSort;
+}
+
+function werSort(a, b) {
+  const dateA = a.wer;
+  const dateB = b.wer;
+
+  let comparison = 0; 
+  if (dateA > dateB){comparison = 1}
+  else if (dateA < dateB){comparison = -1}
+  return comparison;
+
+}
+
+function wasSort(a, b) {
+  const dateA = a.was;
+  const dateB = b.was;
+
+  let comparison = 0; 
+  if (dateA > dateB){comparison = 1}
+  else if (dateA < dateB){comparison = -1}
+  return comparison;
+
+}
+
+function wieVielSort(a, b) {
+  const dateA = a.wieViel;
+  const dateB = b.wieViel;
+
+  let comparison = 0; 
+  if (dateA > dateB){comparison = 1}
+  else if (dateA < dateB){comparison = -1}
+  return comparison;
+
+}
+
 function dateSort(a, b){
   const dateA = a.wann;
   const dateB = b.wann;
@@ -216,8 +297,20 @@ function dateSort(a, b){
   return comparison;
 }
 
-function sortArrayDate() {
+function sortArray() {
+  if (sort === 'date'){
   table.sort(dateSort)
+  } else if (sort=== 'wieViel') {
+  table.sort(wieVielSort)
+  } else if (sort === 'was') {
+  table.sort(wasSort)
+  } else if (sort === 'wer') {
+  table.sort(werSort)
+  } else {
+    sort = 'date';
+    table.sort(dateSort);
+  }
+
 }
 
 function gesamtAusgaben(){

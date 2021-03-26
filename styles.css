@@ -38,6 +38,9 @@ body {
   border-radius: 5px;
   border: 1px solid lightgrey;
 }
+.table-row {
+  opacity: .7;
+}
 .tabelle input {
   border: 0px;
   background-color: transparent;
@@ -60,6 +63,12 @@ body {
 .tabelle td {
   position: relative;
 }
+.text-align-right {
+  text-align: right;
+}
+.text-align-center {
+  text-align: center !important;
+}
 .tabelle .sum-row {
   font-weight: bold;
 }
@@ -76,6 +85,37 @@ body {
   height: 1px;
   background-color: black;
 
+}
+.tabelle th {
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+  padding-left: 15px;
+  opacity: .4;
+  transition: opacity 200ms ease-in;
+}
+.tabelle th:hover,
+.tabelle th:active,
+.tabelle th:focus {
+  opacity: 1;
+}
+.tabelle th::before{
+  content: '';
+  box-sizing: border-box;
+  position: relative;
+  width: 6px;
+  height: 6px;
+  top: .95rem;
+  left: 0;
+  border: 6px solid transparent;
+  border-top: 6px solid currentColor;
+  opacity: 0.3;
+  transition: transform 200ms ease-in;
+  transition: opacity 200ms ease-in;
+}
+.tabelle th:hover::before {
+  opacity: 1;
+  transform: rotate(90deg);
 }
 /*.tabelle td::before {
   content: '';
