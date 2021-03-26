@@ -8,6 +8,7 @@
   --background-color: #00B0F9;
   --table-background-color: #EEEEEE;
   --table-width: 400px;
+  font-size: 10pt;
 }
 body {
   font-family: 'Roboto', sans-serif;
@@ -18,7 +19,7 @@ body {
   min-height: 100vh;
   position: relative;
   display: grid;
-  align-items: center;
+  align-items: flex-start;
   justify-items: center;
   justify-content: center;
   grid-gap: 1rem;
@@ -36,6 +37,67 @@ body {
   padding: 1rem;
   border-radius: 5px;
   border: 1px solid lightgrey;
+}
+.tabelle input {
+  border: 0px;
+  background-color: transparent;
+  border-bottom: 1px solid grey;
+  margin: 0;
+  padding: 0;
+  padding-right: 2px;
+  font-size: 1rem;
+  display: border-box;
+  outline: none;
+  opacity: .2;
+  transition: opacity 200ms ease-in;
+}
+.tabelle input:hover,
+.tabelle input:focus {
+  background-color: #E9E9E9;
+  opacity: 1;
+}
+.tabelle td {
+  position: relative;
+}
+/*.tabelle td::before {
+  content: '';
+  position: absolute;
+  display: inherit;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: black;
+  opacity: .2;
+}*/
+#sendbutton {
+  width: 100%;
+  background-color: darkblue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: .4;
+  transition: opacity 200ms ease-in;
+  font-size: .8rem;
+}
+
+.deleteButton {
+  opacity: .2;
+  transition: opacity 200ms ease-in;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: .8rem;
+  cursor: pointer;
+  padding: 0 .5rem;
+}
+#sendbutton:hover,
+#sendbutton:focus,
+.deleteButton:hover,
+.deleteButton:focus {
+  opacity: 1;
 }
 .head {
   background-color: var(--table-background-color);

@@ -27,10 +27,10 @@ function constructHeader(){
   headRow.classList.add("headrow");
   tableContainer.appendChild(headRow);
   //Elemente erstellen
-  let headDataWas = document.createElement('td');
-  let headDataWieViel = document.createElement('td');
-  let headDataWann = document.createElement('td');
-  let headDataWer = document.createElement('td');
+  let headDataWas = document.createElement('th');
+  let headDataWieViel = document.createElement('th');
+  let headDataWann = document.createElement('th');
+  let headDataWer = document.createElement('th');
   //Werte setzen
   headDataWas.innerText = 'Was';
   headDataWieViel.innerText = 'Wie Viel';
@@ -131,7 +131,7 @@ function constructTable(table){
     let tableDataWer = document.createElement('td');
     tableDataWas.innerText = row.was;
     tableRow.appendChild(tableDataWas);
-    tableDataWieViel.innerText = row.wieViel;
+    tableDataWieViel.innerText = row.wieViel + ' €';
     tableRow.appendChild(tableDataWieViel);
     tableDataWann.innerText = row.wann;
     tableRow.appendChild(tableDataWann);
@@ -141,7 +141,9 @@ function constructTable(table){
     let button = document.createElement('button');
     button.type = 'button';
     button.innerText = 'löschen';
+    button.classList.add("deleteButton");
     button.addEventListener('click', () => {
+      deleteRow(row);
       saveAndRender();
     })
     tableRow.appendChild(buttonElement);
@@ -149,12 +151,32 @@ function constructTable(table){
   } )
 } 
 function createRow(){
+  let tempWieViel = 0;
+  let tempWann = document.getElementById('wann').value;
+  if (document.getElementById('wieViel').value.includes('.')
+    || !document.getElementById('wieViel').value.includes(',')){
+    tempWieViel = parseFloat(document.getElementById('wieViel').value).toFixed(2);
+    } else {
+    tempWieViel = parseFloat((document.getElementById('wieViel').value).replace(",", ".")).toFixed(2);
+    }
+  if (tempWann.startsWith('0')){
+    let tempTempWann = '2' + tempWann.slice(1, tempWann.lenght);
+    tempWann = tempTempWann;
+  }
   table.push({
     was: document.getElementById('was').value,
-    wieViel: document.getElementById('wieViel').value,
-    wann: document.getElementById('wann').value,
+    wieViel: tempWieViel,
+    wann: tempWann,
     wer: document.getElementById('wer').value,
   });
+}
+
+function deleteRow(row){
+  for (let i=0; i < table.length; i++){
+    if (table[i].was === row.was && table[i].wieViel === row.wieViel && table[i].wann == row.wann && table[i].wer === row.wer){
+      table.splice(i, 1);
+    }
+  }
 }
 
 function saveAndRender(){
