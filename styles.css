@@ -42,6 +42,7 @@ body {
   border: 0px;
   background-color: transparent;
   border-bottom: 1px solid grey;
+  height: 1.2rem;
   margin: 0;
   padding: 0;
   padding-right: 2px;
@@ -58,6 +59,23 @@ body {
 }
 .tabelle td {
   position: relative;
+}
+.tabelle .sum-row {
+  font-weight: bold;
+}
+.tabelle .sum-row td {
+  position: relative;
+  padding-top: .5rem;
+}
+.tabelle .summe::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: black;
+
 }
 /*.tabelle td::before {
   content: '';

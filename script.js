@@ -9,10 +9,12 @@ function logValues() {
 }
 
 function render() {
+  sortArrayDate();
   clearElement(tableContainer);
   constructHeader();
   constructInput();
   constructTable(table);
+  constructSum();
 }
 
 function clearElement(element){
@@ -150,6 +152,23 @@ function constructTable(table){
     buttonElement.appendChild(button);
   } )
 } 
+function constructSum(){
+    const tableRow = document.createElement('tr');
+    tableRow.classList.add("sum-row");
+    tableContainer.appendChild(tableRow);
+    let tableDataWas = document.createElement('td');
+    let tableDataWieViel = document.createElement('td');
+    let tableDataWann = document.createElement('td');
+    let tableDataWer = document.createElement('td');
+    tableDataWieViel.innerText = gesamtAusgaben() + ' €';
+    tableDataWas.innerText = 'Summe:';
+    tableDataWieViel.classList.add('summe')
+    tableRow.appendChild(tableDataWas);
+    tableRow.appendChild(tableDataWieViel);
+    tableRow.appendChild(tableDataWann);
+    tableRow.appendChild(tableDataWer);
+ 
+}
 function createRow(){
   let tempWieViel = 0;
   let tempWann = document.getElementById('wann').value;
@@ -178,6 +197,37 @@ function deleteRow(row){
     }
   }
 }
+
+function getSumYear() {
+
+}
+
+function getSumMonth() {
+  
+}
+
+function dateSort(a, b){
+  const dateA = a.wann;
+  const dateB = b.wann;
+
+  let comparison = 0; 
+  if (dateA > dateB){comparison = 1}
+  else if (dateA < dateB){comparison = -1}
+  return comparison;
+}
+
+function sortArrayDate() {
+  table.sort(dateSort)
+}
+
+function gesamtAusgaben(){
+  let sum = 0;
+  for (let i = 0; i<table.length; i++){
+    sum += parseFloat(table[i].wieViel);
+  }
+  return sum.toFixed(2);
+}
+
 
 function saveAndRender(){
   save();
