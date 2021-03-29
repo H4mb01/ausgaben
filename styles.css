@@ -7,8 +7,8 @@
   --table-background-color: grey;
   --background-color: #00B0F9;
   --table-background-color: #EEEEEE;
-  --table-width: 400px;
-  font-size: 10pt;
+  --table-width: 90vw;
+  font-size: 20pt;
 }
 body {
   font-family: 'Roboto', sans-serif;
@@ -103,10 +103,11 @@ body {
   content: '';
   box-sizing: border-box;
   position: relative;
-  width: 6px;
-  height: 6px;
-  top: .95rem;
+  width: .5em;
+  height: .5em;
+  top: .6em;
   left: 0;
+  margin-right: .2em;
   border: 6px solid transparent;
   border-top: 6px solid currentColor;
   opacity: 0.3;
@@ -180,4 +181,15 @@ body {
 .eingaben label {
   display: inline-block;
   width: 70px;
+}
+@media only screen and (orientation: portrait){
+  .tabelle th,
+  #sendbutton,
+  .deleteButton {
+    font-size: 1rem;
+    opacity: 1;
+  }
+  .tabelle td {
+    line-height: 150%;
+  }
 }
