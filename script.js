@@ -1,3 +1,4 @@
+const overviewContainer = document.getElementById('overviewContainer');
 const tableContainer = document.querySelector('[data-table]');
 const LOCAL_STORAGE_TABLE_KEY = 'ausgaben.table'
 
@@ -10,6 +11,8 @@ function logValues() {
 
 function render() {
   sortArray();
+  clearElement(overviewContainer);
+  constructOverview();
   clearElement(tableContainer);
   constructHeader();
   constructInput();
@@ -24,6 +27,139 @@ function renderList(){
 function clearElement(element){
   while (element.firstChild){
     element.removeChild(element.firstChild);
+  }
+}
+
+function constructOverview(){
+  const overviewHeader = document.createElement('h2');
+  overviewHeader.innerText = 'Überblick';
+  overviewContainer.appendChild(overviewHeader);
+//  const overviewList = document.createElement('ul');
+//  overviewList.classList.add("overviewList");
+//  overviewContainer.appendChild(overviewList);
+  constructWerList();
+  constructTimeOverview();
+}
+function constructWerList() {
+  const werList = document.createElement('table');
+  werList.classList.add("tabelle");
+  overviewContainer.appendChild(werList);
+  const werListHeader = document.createElement('tr');
+//  werListHeader.classList.add("");
+  werList.appendChild(werListHeader);
+  let werZahlt = [];
+  let werZahltWieViel = [];
+  for (let i=0; i<table.length; i++){
+    if (werZahlt.includes(table[i].wer)){
+      let a = werZahlt.indexOf(table[i].wer);
+      werZahltWieViel[a] += parseFloat(table[i].wieViel);
+      werZahltWieViel[a];
+    } 
+    else { 
+      let temp = table[i].wer;
+      console.log(temp);
+      werZahlt.push(temp);
+      let tempWV = parseFloat(table[i].wieViel);
+      console.log(tempWV);
+      werZahltWieViel.push(tempWV);
+    }
+  }
+    const werListHeaderWer = document.createElement('th');
+    werListHeader.appendChild(werListHeaderWer);
+    werListHeaderWer.innerText = 'Wer' ;
+    const werListHeaderWieViel = document.createElement('th');
+    werListHeader.appendChild(werListHeaderWieViel);
+    werListHeaderWieViel.innerText = 'Wie Viel' ;
+    const werListHeaderAnteil = document.createElement('th');
+    werListHeader.appendChild(werListHeaderAnteil);
+    werListHeaderAnteil.innerText = 'Anteil' ;
+  console.log(werZahlt);
+  console.log(werZahltWieViel);
+  for (let i=0; i<werZahlt.length; i++){
+    const werZahltList = document.createElement('tr');
+    werList.appendChild(werZahltList);
+    const werZahltListName = document.createElement('td');
+    werZahltList.appendChild(werZahltListName);
+    werZahltListName.innerText = werZahlt[i];
+    const werZahltListWieViel = document.createElement('td');
+    werZahltList.appendChild(werZahltListWieViel);
+    werZahltListWieViel.classList.add("text-align-right");
+    werZahltListWieViel.innerText = `${werZahltWieViel[i].toFixed(2)} €`;
+    const werZahltListAnteil = document.createElement('td');
+    werZahltList.appendChild(werZahltListAnteil);
+    werZahltListAnteil.classList.add("text-align-right");
+    werZahltListAnteil.innerText = `${(werZahltWieViel[i] / parseFloat(gesamtAusgaben()) * 100).toFixed(2)} %`;
+
+//    werZahltListEintrag.innerText = `${werZahlt[i]}: ${werZahltWieViel[i].toFixed(2)} €   Anteil: ${(werZahltWieViel[i] / parseFloat(gesamtAusgaben()) * 100).toFixed(2)} %`;
+  }
+ }
+
+function constructTimeOverview() {
+  //construct Table
+  const overviewTime = document.createElement('table');
+  overviewTime.classList.add('tabelle');
+  overviewContainer.appendChild(overviewTime);
+  //construct Header
+  const overviewTimeHeaderRow = document.createElement('tr');
+  overviewTime.appendChild(overviewTimeHeaderRow);
+  const overviewTimeHeaderRowTimespan = document.createElement('th');
+  const overviewTimeHeaderRowSum = document.createElement('th');
+  overviewTimeHeaderRowTimespan.innerText = "Zeitraum";
+  overviewTimeHeaderRowSum.innerText = "Wert";
+  overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowTimespan);
+  overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowSum);
+  
+  //construct rows
+  let years = [];
+  for (let i=0; i<table.length; i++){
+    if (years.includes(table[i].wann.substr(0, 4))){
+
+    }
+    else {
+      years.push(table[i].wann.substr(0, 4));
+
+    }
+  }
+  years.sort(compareNumbers);
+  for (let i=0; i<years.length; i++){
+    const yearRow = document.createElement('tr');
+    overviewTime.appendChild(yearRow);
+    const yearName = document.createElement('td');
+    yearName.innerText = `Jahr ${years[i]}`;
+    yearRow.appendChild(yearName);
+    const yearValue = document.createElement('td');
+    let tempValue = 0;
+    for (let j=0; j<table.length; j++){
+      if (table[j].wann.substr(0, 4) === years[i]){
+        tempValue += parseFloat(table[j].wieViel);
+      }
+    }
+    yearValue.innerText = `${tempValue.toFixed(2)} €`;
+    yearRow.appendChild(yearValue);
+    let months = [];
+    for (let ii=0; ii<table.length; ii++){
+    if (months.includes(table[ii].wann.substr(5, 2))){}
+    else if(table[ii].wann.substr(0, 4) !== years[i]){}
+    else {months.push(table[ii].wann.substr(5, 2));}
+    }
+    months.sort(compareNumbers);
+    for (let k=0; k<months.length; k++){
+      const monthRow = document.createElement('tr');
+      overviewTime.appendChild(monthRow);
+      const monthName = document.createElement('td');
+      monthName.innerText = `Monat ${months[k]}`;
+      monthRow.appendChild(monthName);
+      const monthValue = document.createElement('td');
+      let tempMonthValue = 0;
+      for (let l=0; l<table.length; l++){
+        if (table[l].wann.substr(5, 2) === months[k]){
+          tempMonthValue += parseFloat(table[l].wieViel);
+        }
+      }
+      monthValue.innerText = `${tempMonthValue.toFixed(2)} €`;
+      monthRow.appendChild(monthValue);
+
+    }
   }
 }
 
@@ -252,6 +388,10 @@ function getSumMonth() {
 
 function setSort(newSort) {
   sort = newSort;
+}
+
+function compareNumbers(a,b){
+  return a-b;
 }
 
 function werSort(a, b) {

@@ -7,7 +7,7 @@
   --table-background-color: grey;
   --background-color: #00B0F9;
   --table-background-color: #EEEEEE;
-  --table-width: 90vw;
+  --table-width: 100%;
   font-size: 20pt;
 }
 body {
@@ -15,28 +15,58 @@ body {
   background-color: var(--background-color);
   min-height: 100vh;
 }
+.unterList {
+  list-style: none;
+  opacity: .7;
+  font-size: 1.5rem;
+}
+.unterList tr {
+  width: 100%;
+}
 .tablediv {
-  min-height: 100vh;
   position: relative;
   display: grid;
   align-items: flex-start;
-  justify-items: center;
+/*  justify-items: center;
   justify-content: center;
-  grid-gap: 1rem;
-  grid-template-columns: auto;
-  grid-template-rows: 200px auto;
-  grid-template-areas: 'header' 'table';
+*/  grid-gap: 1rem;
+  grid-template-columns: 100%;
+  grid-template-rows: min-max(30px, 200px) auto auto;
+  grid-template-areas: 'header' 'overview' 'table';
 }
 .tableContainer{
-  max-width: var(--table-width);
+  width: var(--table-width);
   grid-area: table;
-
+}
+.unterList,
+.timeTable{
+  display: block;
+  width: 100%;
+  opacity: .7;
+  font-size: 1.5rem;
+}
+.unterList td {
+  padding: 5px;
+}
+.overviewContainer{
+  grid-area: overview;
+  width: var(--table-width);
+  background-color: var(--table-background-color);
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
+.overviewContainer h2{
+  text-align: center;
 }
 .tabelle {
   background-color: var(--table-background-color);
   padding: 1rem;
   border-radius: 5px;
   border: 1px solid lightgrey;
+  width: 100%;
+}
+.tabelle tr:nth-child(even) {
+  background-color: #e9e9e9;
 }
 .table-row {
   opacity: .7;
@@ -45,7 +75,7 @@ body {
   border: 0px;
   background-color: transparent;
   border-bottom: 1px solid grey;
-  height: 1.2rem;
+  height: 1.5rem;
   margin: 0;
   padding: 0;
   padding-right: 2px;
@@ -57,11 +87,12 @@ body {
 }
 .tabelle input:hover,
 .tabelle input:focus {
-  background-color: #E9E9E9;
+  background-color: #eeeeee;
   opacity: 1;
 }
 .tabelle td {
   position: relative;
+  padding: .3rem;
 }
 .text-align-right {
   text-align: right;
@@ -82,7 +113,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
+  height: 2px;
   background-color: black;
 
 }
@@ -93,6 +124,7 @@ body {
   padding-left: 15px;
   opacity: .4;
   transition: opacity 200ms ease-in;
+  font-size: 1.3em;
 }
 .tabelle th:hover,
 .tabelle th:active,
@@ -142,6 +174,7 @@ body {
 }
 
 .deleteButton {
+  width: 100%;
   opacity: .2;
   transition: opacity 200ms ease-in;
   background-color: red;
@@ -186,8 +219,11 @@ body {
   .tabelle th,
   #sendbutton,
   .deleteButton {
-    font-size: 1rem;
     opacity: 1;
+  }
+  #sendbutton,
+  .deleteButton {
+    font-size: 1rem;  
   }
   .tabelle td {
     line-height: 150%;
