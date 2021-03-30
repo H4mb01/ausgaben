@@ -3,7 +3,7 @@ const tableContainer = document.querySelector('[data-table]');
 const LOCAL_STORAGE_TABLE_KEY = 'ausgaben.table'
 
 let table = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TABLE_KEY)) || [];
-let sort = 'date';
+let sort = 'dateNeg';
 
 function logValues() {
   console.log(`die werte sind: ${newWas}, ${newWieViel}, ${newWann}, ${newWer}.`)
@@ -64,15 +64,16 @@ function constructWerList() {
       werZahltWieViel.push(tempWV);
     }
   }
-    const werListHeaderWer = document.createElement('th');
-    werListHeader.appendChild(werListHeaderWer);
-    werListHeaderWer.innerText = 'Wer' ;
-    const werListHeaderWieViel = document.createElement('th');
-    werListHeader.appendChild(werListHeaderWieViel);
-    werListHeaderWieViel.innerText = 'Wie Viel' ;
-    const werListHeaderAnteil = document.createElement('th');
-    werListHeader.appendChild(werListHeaderAnteil);
-    werListHeaderAnteil.innerText = 'Anteil' ;
+  
+  const werListHeaderWer = document.createElement('th');
+  werListHeader.appendChild(werListHeaderWer);
+  werListHeaderWer.innerText = 'Wer' ;
+  const werListHeaderWieViel = document.createElement('th');
+  werListHeader.appendChild(werListHeaderWieViel);
+  werListHeaderWieViel.innerText = 'Wie Viel' ;
+  const werListHeaderAnteil = document.createElement('th');
+  werListHeader.appendChild(werListHeaderAnteil);
+  werListHeaderAnteil.innerText = 'Anteil' ;
   console.log(werZahlt);
   console.log(werZahltWieViel);
   for (let i=0; i<werZahlt.length; i++){
@@ -108,7 +109,7 @@ function constructTimeOverview() {
   overviewTimeHeaderRowSum.innerText = "Wert";
   overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowTimespan);
   overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowSum);
-  
+
   //construct rows
   let years = [];
   for (let i=0; i<table.length; i++){
@@ -138,27 +139,30 @@ function constructTimeOverview() {
     yearRow.appendChild(yearValue);
     let months = [];
     for (let ii=0; ii<table.length; ii++){
-    if (months.includes(table[ii].wann.substr(5, 2))){}
-    else if(table[ii].wann.substr(0, 4) !== years[i]){}
-    else {months.push(table[ii].wann.substr(5, 2));}
+      if (months.includes(table[ii].wann.substr(0, 7))){}
+      //    else if(table[ii].wann.substr(0,7) !== years[i]){}
+      else {months.push(table[ii].wann.substr(0,7));}
     }
-    months.sort(compareNumbers);
+    months.sort(compareMonths);
     for (let k=0; k<months.length; k++){
-      const monthRow = document.createElement('tr');
-      overviewTime.appendChild(monthRow);
-      const monthName = document.createElement('td');
-      monthName.innerText = `Monat ${months[k]}`;
-      monthRow.appendChild(monthName);
-      const monthValue = document.createElement('td');
-      let tempMonthValue = 0;
-      for (let l=0; l<table.length; l++){
-        if (table[l].wann.substr(5, 2) === months[k]){
-          tempMonthValue += parseFloat(table[l].wieViel);
+      if (months[k].substr(0,4) === years[i]){
+        const monthRow = document.createElement('tr');
+        overviewTime.appendChild(monthRow);
+        const monthName = document.createElement('td');
+        const monthsName = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'Spetember', 'Oktober', 'November', 'Dezember'];
+        monthName.innerText = `${monthsName[parseInt(months[k].substr(5,2))-1]} ${years[i]}`;
+        monthRow.appendChild(monthName);
+        const monthValue = document.createElement('td');
+        let tempMonthValue = 0;
+        for (let l=0; l<table.length; l++){
+          if (table[l].wann.substr(0, 7) === months[k]){
+            tempMonthValue += parseFloat(table[l].wieViel);
+          }
         }
-      }
-      monthValue.innerText = `${tempMonthValue.toFixed(2)} €`;
-      monthRow.appendChild(monthValue);
+        monthValue.innerText = `${tempMonthValue.toFixed(2)} €`;
+        monthRow.appendChild(monthValue);
 
+      }
     }
   }
 }
@@ -387,10 +391,26 @@ function getSumMonth() {
 }
 
 function setSort(newSort) {
-  sort = newSort;
+  if (newSort === 'date' && sort === 'date'){
+    sort = 'dateNeg';
+  } else if (newSort === 'wieViel' && sort === 'wieViel'){
+    sort = 'wieVielNeg';
+  } else if (newSort === 'was' && sort === 'was'){
+    sort = 'wasNeg';
+  } else if (newSort === 'wer' && sort === 'wer'){
+    sort = 'werNeg';
+  } else {
+    sort = newSort;
+  }
 }
 
 function compareNumbers(a,b){
+  return a-b;
+}
+
+function compareMonths(a,b){
+  a=parseInt(a.substr(5,2));
+  b=parseInt(b.substr(5,2));
   return a-b;
 }
 
@@ -437,8 +457,21 @@ function dateSort(a, b){
   return comparison;
 }
 
+function dateSortNeg(a,b){return - dateSort(a,b);}
+function wieVielSortNeg(a,b){return - wieVielSort(a,b);}
+function wasSortNeg(a,b){return - wasSort(a,b);}
+function werSortNeg(a,b){return - werSort(a,b);}
+
 function sortArray() {
-  if (sort === 'date'){
+  if (sort === 'dateNeg'){
+  table.sort(dateSortNeg)
+  } else if (sort=== 'wieVielNeg') {
+  table.sort(wieVielSortNeg)
+  } else if (sort === 'wasNeg') {
+  table.sort(wasSortNeg)
+  } else if (sort === 'werNeg') {
+  table.sort(werSortNeg)
+  } else if (sort === 'date'){
   table.sort(dateSort)
   } else if (sort=== 'wieViel') {
   table.sort(wieVielSort)
@@ -450,7 +483,6 @@ function sortArray() {
     sort = 'date';
     table.sort(dateSort);
   }
-
 }
 
 function gesamtAusgaben(){
