@@ -57,14 +57,19 @@ function constructWerList() {
     } 
     else { 
       let temp = table[i].wer;
-      console.log(temp);
       werZahlt.push(temp);
       let tempWV = parseFloat(table[i].wieViel);
-      console.log(tempWV);
       werZahltWieViel.push(tempWV);
     }
   }
-  
+  let werArray = [];
+  for (i=0; i<werZahlt.length; i++){
+    werArray[i]= [werZahlt[i], werZahltWieViel[i]];
+  }
+  console.log(werArray);
+  werArray.sort();
+  console.log(werArray);
+
   const werListHeaderWer = document.createElement('th');
   werListHeader.appendChild(werListHeaderWer);
   werListHeaderWer.innerText = 'Wer' ;
@@ -74,8 +79,6 @@ function constructWerList() {
   const werListHeaderAnteil = document.createElement('th');
   werListHeader.appendChild(werListHeaderAnteil);
   werListHeaderAnteil.innerText = 'Anteil' ;
-  console.log(werZahlt);
-  console.log(werZahltWieViel);
   for (let i=0; i<werZahlt.length; i++){
     const werZahltList = document.createElement('tr');
     werList.appendChild(werZahltList);
@@ -318,7 +321,7 @@ function constructTable(table){
     tableDataWieViel.innerText = row.wieViel + ' €';
     tableDataWieViel.classList.add("text-align-right");
     tableRow.appendChild(tableDataWieViel);
-    tableDataWann.innerText = row.wann;
+    tableDataWann.innerText = zuDtDatum(row.wann);
     tableDataWann.classList.add('text-align-center')
     tableRow.appendChild(tableDataWann);
     tableDataWer.innerText = row.wer;
@@ -493,6 +496,9 @@ function gesamtAusgaben(){
   return sum.toFixed(2);
 }
 
+function zuDtDatum(wann){
+  return `${wann.substr(8,2)}.${wann.substr(5,2)}.${wann.substr(0,4)}`;
+}
 
 function saveAndRender(){
   save();
