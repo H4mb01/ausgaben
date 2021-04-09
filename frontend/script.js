@@ -2,13 +2,25 @@ const overviewContainer = document.getElementById('overviewContainer');
 const tableContainer = document.querySelector('[data-table]');
 const LOCAL_STORAGE_TABLE_KEY = 'ausgaben.table'
 
-let table = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TABLE_KEY)) || [];
+//let table = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TABLE_KEY)) || [];
+let table = [];
 let sort = 'dateNeg';
 
-function logValues() {
-  console.log(`die werte sind: ${newWas}, ${newWieViel}, ${newWann}, ${newWer}.`)
+function getTable() {
+  table = [];
+  fetch('http://localhost:8000/getTable')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(e => {
+        table.push(e);
+      }
+      )
+      console.log('table aktualisiert');
+      render();
+    }).catch(function (error) {
+      console.log("error: " + error);
+    });
 }
-
 function render() {
   sortArray();
   clearElement(overviewContainer);
@@ -18,6 +30,7 @@ function render() {
   constructInput();
   constructTable(table);
   constructSum();
+  console.log(table);
 }
 
 function renderList(){
@@ -299,9 +312,9 @@ function constructInput(){
     ) {
       console.log('rippchen, da haste mist gemacht')
     } else {
-    createRow();  
-    saveAndRender();
-
+    createRow();
+    //saveAndRender();
+    getTable();
     }
   });
 
@@ -332,7 +345,7 @@ function constructTable(table){
     button.innerText = 'löschen';
     button.classList.add("deleteButton");
     button.addEventListener('click', () => {
-      deleteRow(row);
+      deleteFromServer(row);
       saveAndRender();
     })
     tableRow.appendChild(buttonElement);
@@ -369,12 +382,14 @@ function createRow(){
     let tempTempWann = '2' + tempWann.slice(1, tempWann.lenght);
     tempWann = tempTempWann;
   }
-  table.push({
+  let newTableRow = {
     was: document.getElementById('was').value,
     wieViel: tempWieViel,
     wann: tempWann,
     wer: document.getElementById('wer').value,
-  });
+  };
+  addToServer(newTableRow);
+  //table.push(newTableRow);
 }
 
 function deleteRow(row){
@@ -509,5 +524,39 @@ function save(){
   localStorage.setItem(LOCAL_STORAGE_TABLE_KEY, JSON.stringify(table));  
 }
 
+function addToServer(newData){
+//  table.push(newData);
+  console.log(JSON.stringify(table));
+  window.fetch("http://localhost:8000/addTableRow", {
+    method: 'post',
+    headers: {'Content-Type' : 'application/json'},
+    body: JSON.stringify(newData)
+  })
+    .then( (text) => {
+      console.log(text);
+      console.log(JSON.stringify(newData));
+      getTable();
+    } )
+    .catch ((error) => {
+      console.log("Error: ", error);
+    })
+}
+
+function deleteFromServer(oldData){
+  window.fetch("http://localhost:8000/deleteTableRow", {
+    method: 'post',
+    headers: {'Content-Type' : 'application/json'},
+    body: JSON.stringify(oldData)
+  })
+    .then((text) => {
+      console.log(text);
+      console.log(JSON.stringify(oldData));
+      getTable();
+    } )
+    .catch((error) => {
+      console.log("Error: ", error);
+    })
+}
 
 render();
+getTable();
