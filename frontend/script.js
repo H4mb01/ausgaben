@@ -8,7 +8,9 @@ let sort = 'dateNeg';
 
 function getTable() {
   table = [];
-  fetch('http://localhost:8000/getTable')
+  fetch('http://localhost:8000/getTable', {
+  headers: {'Content-Type' : 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('jwt.token')}
+  })
     .then(response => response.json())
     .then(data => {
       data.forEach(e => {
@@ -19,6 +21,7 @@ function getTable() {
       render();
     }).catch(function (error) {
       console.log("error: " + error);
+      window.location.href= '/login.html'
     });
 }
 function render() {
@@ -529,7 +532,7 @@ function addToServer(newData){
   console.log(JSON.stringify(table));
   window.fetch("http://localhost:8000/addTableRow", {
     method: 'post',
-    headers: {'Content-Type' : 'application/json'},
+    headers: {'Content-Type' : 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('jwt.token')},
     body: JSON.stringify(newData)
   })
     .then( (text) => {
@@ -545,7 +548,7 @@ function addToServer(newData){
 function deleteFromServer(oldData){
   window.fetch("http://localhost:8000/deleteTableRow", {
     method: 'post',
-    headers: {'Content-Type' : 'application/json'},
+    headers: {'Content-Type' : 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('jwt.token')},
     body: JSON.stringify(oldData)
   })
     .then((text) => {

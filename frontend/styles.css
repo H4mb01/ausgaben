@@ -163,6 +163,7 @@ body {
 }*/
 #sendbutton {
   width: 100%;
+  height: 2rem;
   background-color: darkblue;
   color: white;
   border: none;
@@ -175,6 +176,7 @@ body {
 
 .deleteButton {
   width: 100%;
+  height: 2rem;
   opacity: .2;
   transition: opacity 200ms ease-in;
   background-color: red;
@@ -215,7 +217,10 @@ body {
   display: inline-block;
   width: 70px;
 }
-@media only screen and (orientation: portrait){
+@media only screen and (max-width: 600px) {
+  :root {
+    font-size: 10pt;
+  }
   .tabelle th,
   #sendbutton,
   .deleteButton {
@@ -228,4 +233,130 @@ body {
   .tabelle td {
     line-height: 150%;
   }
+}
+
+@media only screen and (min-width: 600px) {
+  :root {
+    font-size: 12pt;
+  }
+  .tabelle th,
+  #sendbutton,
+  .deleteButton {
+    opacity: 1;
+  }
+  #sendbutton,
+  .deleteButton {
+    font-size: 1rem;  
+  }
+  .tabelle td {
+    line-height: 150%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  :root {
+    font-size: 14pt;
+  }
+  .tabelle th,
+  #sendbutton,
+  .deleteButton {
+    opacity: 1;
+  }
+  #sendbutton,
+  .deleteButton {
+    font-size: 1rem;  
+  }
+  .tabelle td {
+    line-height: 150%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  :root {
+    font-size: 16pt;
+  }
+  .tabelle th,
+  #sendbutton,
+  .deleteButton {
+    opacity: 1;
+  }
+  #sendbutton,
+  .deleteButton {
+    font-size: 1rem;  
+  }
+  .tabelle td {
+    line-height: 150%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  :root {
+    font-size: 20pt;
+  }
+  .tabelle th,
+  #sendbutton,
+  .deleteButton {
+    opacity: 1;
+  }
+  #sendbutton,
+  .deleteButton {
+    font-size: 1rem;  
+  }
+  .tabelle td {
+    line-height: 150%;
+  }
+}
+
+/*Login Screen*/
+.loginContainer {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.login {
+  background-color: var(--table-background-color);
+  padding: 2rem;
+  border-radius: .5rem;
+}
+.submit {
+  display: block;
+  border: none;
+  padding: 0.5rem 1rem;
+  background-color: orange;
+  cursor: pointer;
+  width: 100%;
+  font-size: 2rem;
+  color: white;
+  border-radius: .5rem;
+  margin-top: 1rem;
+  font-weight: 700;
+  letter-spacing: .125rem;
+  transition: all 250ms ease-in-out;
+}
+#passworddiv {
+  margin-top: 1rem;
+}
+.login label {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+
+}
+.login .inputField {
+  border: none;
+  border-bottom: 1px solid currentColor ;
+  background: transparent;
+  font-size: 1.5rem;
+  border-radius: .25rem .25rem 0 0;
+}
+.login input {
+  text-align: center;
+}
+.login .inputField:focus {
+  background-color: #fff;
+  outline: none;
+}
+.login .submit:focus {
+  background-color: rgb(26, 26, 26);
+  color: orange;
 }
