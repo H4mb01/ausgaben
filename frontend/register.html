@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="register.js"></script>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+    <h1 class="heading abs">REGISTER</h1>
+    <div class="loginContainer">
+      <div id="register" class="login">
+        <div>
+           <label for="name">neuer Name:</label>
+           <input class="inputField" name="name" id="name" placeholder="neuer Name" type="text" required>
+        </div>
+        <div id="passworddiv">
+            <label for="password">neues Passwort:</label>
+            <input class="inputField" name="password" id="password" placeholder="neues Passwort" type="password" required>
+        </div>
+        <button class="submit" onclick="register()">Register</button>
+      </div>
+  </div>
+  <a class="zurück" href="options.html">Zurück</a>
+</body>

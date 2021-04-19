@@ -25,6 +25,7 @@ function getTable() {
     });
 }
 function render() {
+  isLoggedIn();
   sortArray();
   clearElement(overviewContainer);
   constructOverview();
@@ -37,171 +38,171 @@ function render() {
 }
 
 function renderList(){
-  constructTable(table);
+constructTable(table);
 }
 
 function clearElement(element){
-  while (element.firstChild){
-    element.removeChild(element.firstChild);
-  }
+while (element.firstChild){
+  element.removeChild(element.firstChild);
+}
 }
 
 function constructOverview(){
-  const overviewHeader = document.createElement('h2');
-  overviewHeader.innerText = 'Überblick';
-  overviewContainer.appendChild(overviewHeader);
+const overviewHeader = document.createElement('h2');
+overviewHeader.innerText = 'Überblick';
+overviewContainer.appendChild(overviewHeader);
 //  const overviewList = document.createElement('ul');
 //  overviewList.classList.add("overviewList");
 //  overviewContainer.appendChild(overviewList);
-  constructWerList();
-  constructTimeOverview();
+constructWerList();
+constructTimeOverview();
 }
 function constructWerList() {
-  const werList = document.createElement('table');
-  werList.classList.add("tabelle");
-  overviewContainer.appendChild(werList);
-  const werListHeader = document.createElement('tr');
+const werList = document.createElement('table');
+werList.classList.add("tabelle");
+overviewContainer.appendChild(werList);
+const werListHeader = document.createElement('tr');
 //  werListHeader.classList.add("");
-  werList.appendChild(werListHeader);
-  let werZahlt = [];
-  let werZahltWieViel = [];
-  for (let i=0; i<table.length; i++){
-    if (werZahlt.includes(table[i].wer)){
-      let a = werZahlt.indexOf(table[i].wer);
-      werZahltWieViel[a] += parseFloat(table[i].wieViel);
-      werZahltWieViel[a];
-    } 
-    else { 
-      let temp = table[i].wer;
-      werZahlt.push(temp);
-      let tempWV = parseFloat(table[i].wieViel);
-      werZahltWieViel.push(tempWV);
-    }
+werList.appendChild(werListHeader);
+let werZahlt = [];
+let werZahltWieViel = [];
+for (let i=0; i<table.length; i++){
+  if (werZahlt.includes(table[i].wer)){
+    let a = werZahlt.indexOf(table[i].wer);
+    werZahltWieViel[a] += parseFloat(table[i].wieViel);
+    werZahltWieViel[a];
+  } 
+  else { 
+    let temp = table[i].wer;
+    werZahlt.push(temp);
+    let tempWV = parseFloat(table[i].wieViel);
+    werZahltWieViel.push(tempWV);
   }
-  let werArray = [];
-  for (i=0; i<werZahlt.length; i++){
-    werArray[i]= [werZahlt[i], werZahltWieViel[i]];
-  }
-  console.log(werArray);
-  werArray.sort();
-  console.log(werArray);
+}
+let werArray = [];
+for (i=0; i<werZahlt.length; i++){
+  werArray[i]= [werZahlt[i], werZahltWieViel[i]];
+}
+console.log(werArray);
+werArray.sort();
+console.log(werArray);
 
-  const werListHeaderWer = document.createElement('th');
-  werListHeader.appendChild(werListHeaderWer);
-  werListHeaderWer.innerText = 'Wer' ;
-  const werListHeaderWieViel = document.createElement('th');
-  werListHeader.appendChild(werListHeaderWieViel);
-  werListHeaderWieViel.innerText = 'Wie Viel' ;
-  const werListHeaderAnteil = document.createElement('th');
-  werListHeader.appendChild(werListHeaderAnteil);
-  werListHeaderAnteil.innerText = 'Anteil' ;
-  for (let i=0; i<werZahlt.length; i++){
-    const werZahltList = document.createElement('tr');
-    werList.appendChild(werZahltList);
-    const werZahltListName = document.createElement('td');
-    werZahltList.appendChild(werZahltListName);
-    werZahltListName.innerText = werZahlt[i];
-    const werZahltListWieViel = document.createElement('td');
-    werZahltList.appendChild(werZahltListWieViel);
-    werZahltListWieViel.classList.add("text-align-right");
-    werZahltListWieViel.innerText = `${werZahltWieViel[i].toFixed(2)} €`;
-    const werZahltListAnteil = document.createElement('td');
-    werZahltList.appendChild(werZahltListAnteil);
-    werZahltListAnteil.classList.add("text-align-right");
-    werZahltListAnteil.innerText = `${(werZahltWieViel[i] / parseFloat(gesamtAusgaben()) * 100).toFixed(2)} %`;
+const werListHeaderWer = document.createElement('th');
+werListHeader.appendChild(werListHeaderWer);
+werListHeaderWer.innerText = 'Wer' ;
+const werListHeaderWieViel = document.createElement('th');
+werListHeader.appendChild(werListHeaderWieViel);
+werListHeaderWieViel.innerText = 'Wie Viel' ;
+const werListHeaderAnteil = document.createElement('th');
+werListHeader.appendChild(werListHeaderAnteil);
+werListHeaderAnteil.innerText = 'Anteil' ;
+for (let i=0; i<werZahlt.length; i++){
+  const werZahltList = document.createElement('tr');
+  werList.appendChild(werZahltList);
+  const werZahltListName = document.createElement('td');
+  werZahltList.appendChild(werZahltListName);
+  werZahltListName.innerText = werZahlt[i];
+  const werZahltListWieViel = document.createElement('td');
+  werZahltList.appendChild(werZahltListWieViel);
+  werZahltListWieViel.classList.add("text-align-right");
+  werZahltListWieViel.innerText = `${werZahltWieViel[i].toFixed(2)} €`;
+  const werZahltListAnteil = document.createElement('td');
+  werZahltList.appendChild(werZahltListAnteil);
+  werZahltListAnteil.classList.add("text-align-right");
+  werZahltListAnteil.innerText = `${(werZahltWieViel[i] / parseFloat(gesamtAusgaben()) * 100).toFixed(2)} %`;
 
 //    werZahltListEintrag.innerText = `${werZahlt[i]}: ${werZahltWieViel[i].toFixed(2)} €   Anteil: ${(werZahltWieViel[i] / parseFloat(gesamtAusgaben()) * 100).toFixed(2)} %`;
-  }
- }
+}
+}
 
 function constructTimeOverview() {
-  //construct Table
-  const overviewTime = document.createElement('table');
-  overviewTime.classList.add('tabelle');
-  overviewContainer.appendChild(overviewTime);
-  //construct Header
-  const overviewTimeHeaderRow = document.createElement('tr');
-  overviewTime.appendChild(overviewTimeHeaderRow);
-  const overviewTimeHeaderRowTimespan = document.createElement('th');
-  const overviewTimeHeaderRowSum = document.createElement('th');
-  overviewTimeHeaderRowTimespan.innerText = "Zeitraum";
-  overviewTimeHeaderRowSum.innerText = "Wert";
-  overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowTimespan);
-  overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowSum);
+//construct Table
+const overviewTime = document.createElement('table');
+overviewTime.classList.add('tabelle');
+overviewContainer.appendChild(overviewTime);
+//construct Header
+const overviewTimeHeaderRow = document.createElement('tr');
+overviewTime.appendChild(overviewTimeHeaderRow);
+const overviewTimeHeaderRowTimespan = document.createElement('th');
+const overviewTimeHeaderRowSum = document.createElement('th');
+overviewTimeHeaderRowTimespan.innerText = "Zeitraum";
+overviewTimeHeaderRowSum.innerText = "Wert";
+overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowTimespan);
+overviewTimeHeaderRow.appendChild(overviewTimeHeaderRowSum);
 
-  //construct rows
-  let years = [];
-  for (let i=0; i<table.length; i++){
-    if (years.includes(table[i].wann.substr(0, 4))){
+//construct rows
+let years = [];
+for (let i=0; i<table.length; i++){
+  if (years.includes(table[i].wann.substr(0, 4))){
 
-    }
-    else {
-      years.push(table[i].wann.substr(0, 4));
+  }
+  else {
+    years.push(table[i].wann.substr(0, 4));
 
+  }
+}
+years.sort(compareNumbers);
+for (let i=0; i<years.length; i++){
+  const yearRow = document.createElement('tr');
+  overviewTime.appendChild(yearRow);
+  const yearName = document.createElement('td');
+  yearName.innerText = `Jahr ${years[i]}`;
+  yearRow.appendChild(yearName);
+  const yearValue = document.createElement('td');
+  let tempValue = 0;
+  for (let j=0; j<table.length; j++){
+    if (table[j].wann.substr(0, 4) === years[i]){
+      tempValue += parseFloat(table[j].wieViel);
     }
   }
-  years.sort(compareNumbers);
-  for (let i=0; i<years.length; i++){
-    const yearRow = document.createElement('tr');
-    overviewTime.appendChild(yearRow);
-    const yearName = document.createElement('td');
-    yearName.innerText = `Jahr ${years[i]}`;
-    yearRow.appendChild(yearName);
-    const yearValue = document.createElement('td');
-    let tempValue = 0;
-    for (let j=0; j<table.length; j++){
-      if (table[j].wann.substr(0, 4) === years[i]){
-        tempValue += parseFloat(table[j].wieViel);
-      }
-    }
-    yearValue.innerText = `${tempValue.toFixed(2)} €`;
-    yearRow.appendChild(yearValue);
-    let months = [];
-    for (let ii=0; ii<table.length; ii++){
-      if (months.includes(table[ii].wann.substr(0, 7))){}
-      //    else if(table[ii].wann.substr(0,7) !== years[i]){}
-      else {months.push(table[ii].wann.substr(0,7));}
-    }
-    months.sort(compareMonths);
-    for (let k=0; k<months.length; k++){
-      if (months[k].substr(0,4) === years[i]){
-        const monthRow = document.createElement('tr');
-        overviewTime.appendChild(monthRow);
-        const monthName = document.createElement('td');
-        const monthsName = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'Spetember', 'Oktober', 'November', 'Dezember'];
-        monthName.innerText = `${monthsName[parseInt(months[k].substr(5,2))-1]} ${years[i]}`;
-        monthRow.appendChild(monthName);
-        const monthValue = document.createElement('td');
-        let tempMonthValue = 0;
-        for (let l=0; l<table.length; l++){
-          if (table[l].wann.substr(0, 7) === months[k]){
-            tempMonthValue += parseFloat(table[l].wieViel);
-          }
+  yearValue.innerText = `${tempValue.toFixed(2)} €`;
+  yearRow.appendChild(yearValue);
+  let months = [];
+  for (let ii=0; ii<table.length; ii++){
+    if (months.includes(table[ii].wann.substr(0, 7))){}
+    //    else if(table[ii].wann.substr(0,7) !== years[i]){}
+    else {months.push(table[ii].wann.substr(0,7));}
+  }
+  months.sort(compareMonths);
+  for (let k=0; k<months.length; k++){
+    if (months[k].substr(0,4) === years[i]){
+      const monthRow = document.createElement('tr');
+      overviewTime.appendChild(monthRow);
+      const monthName = document.createElement('td');
+      const monthsName = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'Spetember', 'Oktober', 'November', 'Dezember'];
+      monthName.innerText = `${monthsName[parseInt(months[k].substr(5,2))-1]} ${years[i]}`;
+      monthRow.appendChild(monthName);
+      const monthValue = document.createElement('td');
+      let tempMonthValue = 0;
+      for (let l=0; l<table.length; l++){
+        if (table[l].wann.substr(0, 7) === months[k]){
+          tempMonthValue += parseFloat(table[l].wieViel);
         }
-        monthValue.innerText = `${tempMonthValue.toFixed(2)} €`;
-        monthRow.appendChild(monthValue);
-
       }
+      monthValue.innerText = `${tempMonthValue.toFixed(2)} €`;
+      monthRow.appendChild(monthValue);
+
     }
   }
+}
 }
 
 function constructHeader(){
-  // row erstellen
-  const headRow = document.createElement('tr');
-  headRow.classList.add("headrow");
-  tableContainer.appendChild(headRow);
-  //Elemente erstellen
-  let headDataWas = document.createElement('th');
-  let headDataWieViel = document.createElement('th');
-  let headDataWann = document.createElement('th');
-  let headDataWer = document.createElement('th');
-  //Werte setzen
-  headDataWas.innerText = 'Was';
-  headDataWieViel.innerText = 'Wie Viel';
-  headDataWann.innerText = 'Wann';
-  headDataWann.classList.add('text-align-center');
-  headDataWer.innerText = 'Wer';
+// row erstellen
+const headRow = document.createElement('tr');
+headRow.classList.add("headrow");
+tableContainer.appendChild(headRow);
+//Elemente erstellen
+let headDataWas = document.createElement('th');
+let headDataWieViel = document.createElement('th');
+let headDataWann = document.createElement('th');
+let headDataWer = document.createElement('th');
+//Werte setzen
+headDataWas.innerText = 'Was';
+headDataWieViel.innerText = 'Wie Viel';
+headDataWann.innerText = 'Wann';
+headDataWann.classList.add('text-align-center');
+headDataWer.innerText = 'Wer';
   //Headrow klickbar machen
   headDataWas.classList.add = 'hdClick';
   headDataWas.addEventListener("click", () => {
@@ -537,7 +538,6 @@ function addToServer(newData){
   })
     .then( (text) => {
       console.log(text);
-      console.log(JSON.stringify(newData));
       getTable();
     } )
     .catch ((error) => {
@@ -561,5 +561,17 @@ function deleteFromServer(oldData){
     })
 }
 
+function logout() {
+  localStorage.removeItem('jwt.token');
+  console.log('logout', localStorage.getItem('jwt.token'));
+}
+
+function isLoggedIn() {
+  if (localStorage.getItem('jwt.token')) {
+    console.log('user is logged in');
+  } else {
+    window.location.href="login.html";
+  }
+}
 render();
 getTable();

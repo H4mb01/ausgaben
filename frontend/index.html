@@ -4,13 +4,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+    <script defer src="index.js"></script>
     <meta charset="UTF-8">
     <title>Ausgaben</title>
   </head>
   <body>
     <div class="tablediv">
       <h1 class="heading">AUSGABEN</h1>
+      <div class="logoutdiv">
+        <a class="options" href="options.html">Optionen</a>
+        <a onclick="logout()" href="login.html" class="logout">logout</a>
+      </div>
       <div class="overviewContainer" id="overviewContainer"></div>
       <div class="tableContainer">
         <table class="tabelle" data-table>
@@ -39,5 +43,8 @@
           </tr>
         </table>
       </div>
+      <div class="footer">
+      </div>
+    </div>
   </body>
 </html>

@@ -14,7 +14,60 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: var(--background-color);
   min-height: 100vh;
+  z-index: -99;
 }
+
+.logoutdiv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+}
+.options, 
+.logout {
+  display: inline-block;
+  padding: .5rem;
+  border-radius: .25rem;
+  color: white;
+  text-decoration: none;
+  margin: 2rem;
+}
+.options {
+  background-color: darkblue;
+}
+.logout {
+
+  margin-left: auto;
+  background-color: red;
+}
+
+#optionsList {
+  background-color: #eee;
+  
+}
+#optionsList li {
+  list-style: none;
+  display: block;
+  width: 100%;
+  height: 3rem;
+}
+#optionsList a:hover {
+  background-color: #363636;
+}
+#optionsList a {
+  background-color: #222222;
+  text-decoration: none;
+  display: block;
+  color: white;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+}
+
+
+
+
 .unterList {
   list-style: none;
   opacity: .7;
@@ -206,6 +259,11 @@ body {
   font-size: 5rem;
   font-weight: 600;
 }
+.abs {
+  position: absolute;
+  top: 0;
+  z-index:-1;
+}
 /*.eingaben {
   max-width: var(--table-width);
   grid-area: eingaben;
@@ -217,6 +275,149 @@ body {
   display: inline-block;
   width: 70px;
 }
+.footer {
+  min-height: 20vh;
+  position: relative;
+
+}
+.footer a {
+  color: lightgrey;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: .5rem;
+}
+/*============
+  login page
+  ============*/
+.loginContainer {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.login {
+  background-color: var(--table-background-color);
+  padding: 2rem;
+  border-radius: .5rem;
+}
+.submit {
+  display: block;
+  border: none;
+  padding: 0.5rem 1rem;
+  background-color: orange;
+  cursor: pointer;
+  width: 100%;
+  font-size: 2rem;
+  color: white;
+  border-radius: .5rem;
+  margin-top: 1rem;
+  font-weight: 700;
+  letter-spacing: .125rem;
+  transition: all 250ms ease-in-out;
+}
+#passworddiv {
+  margin-top: 1rem;
+}
+.login label {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+
+}
+.login .inputField {
+  border: none;
+  border-bottom: 1px solid currentColor ;
+  background: transparent;
+  font-size: 1.5rem;
+  border-radius: .25rem .25rem 0 0;
+}
+.login input {
+  text-align: center;
+}
+.login .inputField:focus {
+  background-color: #fff;
+  outline: none;
+}
+.login .submit:focus {
+  background-color: rgb(26, 26, 26);
+  color: orange;
+}
+
+
+/*============
+  register page
+  ============*/
+#registerUser {
+  margin-left: auto;
+}
+.zurück {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: darkblue;
+  color: white;
+  padding: .5rem;
+  margin: 2rem;
+  border-radius: .25rem;
+  text-decoration: none;
+
+}
+.erstellt {
+  width: 100%;
+  text-align: center;
+}
+.btn {
+  background-color: black;
+  width: 100%;
+  text-align: center;
+  color: white;
+  display: block;
+  padding: 1rem;
+  font-size: 2rem;
+  border-radius: .25rem;
+  margin: .5rem;
+}
+.back {
+  background-color: darkblue;
+}
+.again {
+  background-color: orange;
+}
+
+
+/*============
+  delete page
+  ============*/
+#deleteContainer{
+  background-color: #eee;
+  border-radius: .25rem;
+  padding: 2rem;
+}
+.deleteDiv {
+  height: 2rem;
+  position: relative;
+  display: flex;
+  padding-top: .5rem;
+}
+.deleteDiv p {
+  padding: .25rem .5rem 0 0;
+  
+}
+.deleteUserBtn{
+  position: relative;
+  margin-left: auto;
+  border: none;
+  border-radius: .25em;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 0 .5em 0 .5em;
+}
+
+
+/*============
+  Media Querys
+  ============*/
 @media only screen and (max-width: 600px) {
   :root {
     font-size: 10pt;
@@ -307,56 +508,3 @@ body {
   }
 }
 
-/*Login Screen*/
-.loginContainer {
-  height: 100vh;
-  display: grid;
-  place-items: center;
-}
-.login {
-  background-color: var(--table-background-color);
-  padding: 2rem;
-  border-radius: .5rem;
-}
-.submit {
-  display: block;
-  border: none;
-  padding: 0.5rem 1rem;
-  background-color: orange;
-  cursor: pointer;
-  width: 100%;
-  font-size: 2rem;
-  color: white;
-  border-radius: .5rem;
-  margin-top: 1rem;
-  font-weight: 700;
-  letter-spacing: .125rem;
-  transition: all 250ms ease-in-out;
-}
-#passworddiv {
-  margin-top: 1rem;
-}
-.login label {
-  display: block;
-  text-align: center;
-  font-size: 2rem;
-
-}
-.login .inputField {
-  border: none;
-  border-bottom: 1px solid currentColor ;
-  background: transparent;
-  font-size: 1.5rem;
-  border-radius: .25rem .25rem 0 0;
-}
-.login input {
-  text-align: center;
-}
-.login .inputField:focus {
-  background-color: #fff;
-  outline: none;
-}
-.login .submit:focus {
-  background-color: rgb(26, 26, 26);
-  color: orange;
-}
